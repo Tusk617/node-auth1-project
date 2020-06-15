@@ -27,4 +27,18 @@ router.post("/register", (req, res) => {
     })
 })
 
+router.post("/login", (req, res) => {
+
+    const {username, password} = req.body;
+
+    Users.findBy({username})
+    .then(([user]) => {
+        if(user && bcrypt.compareSync(password, user.password)) {
+            res.status(200).json({welcome: user.username, session: req.session})
+        } else {
+            res.status(401).json("no access")
+        }
+    })
+})
+
 module.exports = router;
