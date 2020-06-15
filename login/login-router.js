@@ -1,10 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
+const loggedIn = require("./requires-login.js")
 
 const Users = require("./login-model.js");
 
-router.get("/users", (req, res) => {
+router.get("/users", loggedIn, (req, res) => {
     Users.find()
     .then(users => {
         res.status(200).json(users);
